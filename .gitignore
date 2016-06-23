@@ -1,0 +1,9 @@
+config.py
+config.json
+*.pyc
+logs
+node_modules
+static/css
+static/fonts
+static/fa-fonts
+static/js

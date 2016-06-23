@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <title>{% block title %}Expense web entry{% endblock %}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <link href='https://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ url_for("static", filename="css/datepicker/bootstrap-datetimepicker.min.css") }}">
+  <link rel="stylesheet" href="{{ url_for("static", filename="css/expense_www.css") }}">
+  {% block css %}{% endblock %}
+
+  {% include "favicon.html" %}
+  {% include "livereload.html" %}
+  {% include "typekit.html" %}
+  {% include "analytics.html" %}
+
+</head>
+
+<body>
+  {% block body %}{% endblock %}
+  {% block js %}{% endblock %}
+</body>
+
+</html>
+

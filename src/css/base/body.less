@@ -1,0 +1,144 @@
+@light-font: #f2f2f2;
+@dark-font: #555555;
+
+body {
+  background: #101010;
+  color: @light-font;
+  font-family: 'Roboto', sans-serif;
+}
+
+.dark-font {
+  color: @dark-font;
+}
+
+.no-fa {
+  display: inline;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 2px;
+  margin: 0 auto; /* centering */
+}
+
+.header {
+  font-size: 1.2em;
+  font-family: 'Play', sans-serif;
+  text-align: center;
+  border: 1px solid white;
+  margin: 0;
+  padding: 2px;
+  background-image: linear-gradient(#101010, #337ab7);
+}
+
+.btn {
+  margin-bottom: 3px;
+  margin-right: 2px;
+}
+
+.btn-primary:focus,
+.btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.btn-primary.active {
+  color: white;
+  background-color: #00bfff;
+  border-color: #ffffff;
+}
+
+.btn-success:focus,
+.btn-success:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.btn-success.active {
+  color: white;
+  background-color: #7ace7a;
+  border-color: #ffffff;
+}
+
+.btn-warning:focus,
+.btn-warning:hover,
+.btn-warning:active:focus,
+.btn-warning.active:focus,
+.btn-warning.active {
+  color: black;
+  background-color: #f7d5a5;
+  border-color: #ffffff;
+}
+
+.dark-text {
+  color: black;
+}
+
+#map {
+  height: 200px;
+}
+
+#clear {
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 14px;
+  margin: auto;
+  font-size: 14px;
+  color: #555;
+}
+
+.badge {
+  font-size: 9px;
+  padding: 3px;
+}
+
+.form-control-clear {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+::-ms-clear {
+  display: none;
+}
+
+.section-title {
+  color: #c0c0c0;
+  font-size: 10px;
+}
+
+.section-divider {
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.close-bottom {
+  margin-bottom: 0;
+}
+
+.expenseItem {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-left: 22px;
+  list-style-type: square;
+  color: #add8e6;
+}
+
+.expenseItemReview {
+  display: table;
+  margin: 0 auto; /* centering */
+  margin-top: 4px;
+  margin-bottom: 4px;
+  list-style-type: square;
+}
+
+/* reduce gutter size on mobile */
+div[class^="col"]{
+  padding-right:0;
+}
+
+.close-x {
+  color: red;
+}
+

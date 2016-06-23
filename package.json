@@ -1,0 +1,57 @@
+{
+  "name": "expense.www",
+  "version": "0.0.1",
+  "description": "Expense web entry",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@10.0.3.252/var/git/expense_www.git"
+  },
+  "author": "ocamler",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-1": "^6.3.13",
+    "babelify": "^7.2.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-less": "^1.1.0",
+    "grunt-contrib-symlink": "^0.3.0",
+    "grunt-contrib-uglify": "^0.11.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "jit-grunt": "^0.9.1",
+    "load-grunt-config": "^0.19.1",
+    "time-grunt": "^1.3.0",
+    "yamlify": "^0.1.2"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "chroma-js": "^1.1.1",
+    "classnames": "^2.2.1",
+    "director": "^1.2.8",
+    "font-awesome": "^4.5.0",
+    "history": "^1.17.0",
+    "jquery": "^2.1.4",
+    "lesshat": "^3.0.2",
+    "lodash": "^4.0.0",
+    "pluralize": "^1.2.1",
+    "query-string": "^3.0.0",
+    "react": "^0.14.5",
+    "react-bootstrap-datetimepicker": "0.0.22",
+    "react-dom": "^0.14.5",
+    "react-redux": "^4.0.6",
+    "react-select": "^1.0.0-beta8",
+    "redux": "^3.0.5",
+    "redux-thunk": "^1.0.3",
+    "spinkit": "^1.2.5",
+    "urijs": "^1.18.1"
+  },
+  "browser": {}
+}

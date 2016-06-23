@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container">
+  <form class="form-signin">
+    {% include "header.html" %}
+
+    <div id="app"></div>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for("static", filename="js/date.js") }}"></script>
+{% endblock %}
+

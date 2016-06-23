@@ -1,0 +1,57 @@
+alter table expense add column lat_long point;
+create index expense_lat_long_index on expense using gist(lat_long);
+
+
+
+--
+
+
+
+create table method_payment (name varchar(50), sort_order smallint);
+
+insert into method_payment select exp_method_payment, count(*) from expense where exp_date >= '2015-06-13' group by exp_method_payment order by 2 DESC LIMIT 4;
+
+
+
+
+--
+
+
+
+
+drop table geolocate;
+create table geolocate (exp_number integer NOT NULL,  lat_long point NOT NULL);
+insert into geolocate values (123, ('-34.397, 141.3423455'));
+
+
+
+
+
+select * from geolocate ^A;
+select * from geolocate where circle '((-35.1, 15), 10)' @> lat_long ;
+select * from geolocate where circle '((-35.1, 140), 10)' @> lat_long ;
+select e.exp_desc from geolocate g inner join expense e where circle '((-35.1, 140), 10)' @> g.lat_long ;
+select e.exp_desc from geolocate g inner join expense e on g.exp_number = e.exp_number where circle '((-35.1, 140), 10)' @> g.lat_long ;
+select * from geolocate ;
+select distinct(e.exp_desc) from geolocate g inner join expense e on g.exp_number = e.exp_number where circle '((-35.1, 140), 10)' @> g.lat_long ;
+
+
+
+drop table geotagged;
+create table geotagged (id SERIAL, location VARCHAR(50),  lat_long point NOT NULL, when_added timestamp default now());
+
+
+
+
+select e.exp_desc, point '(-35.1, 140)' <-> g.lat_long
+from geolocate g inner join expense e
+on g.exp_number = e.exp_number
+where circle '((-35.1, 140), 10)' @> g.lat_long
+UNION
+select g.location, point '(-35.1, 140)' <-> g.lat_long
+from geotagged g
+where circle '((-35.1, 140), 10)' @> g.lat_long
+order by 2;
+
+
+

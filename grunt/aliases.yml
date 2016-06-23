@@ -1,0 +1,16 @@
+---
+
+compile:
+  - symlink
+  - browserify
+  - less
+
+compile:min:
+  - compile
+  - uglify
+  - cssmin
+
+default:
+  - compile
+  - watch
+
