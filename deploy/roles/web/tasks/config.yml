@@ -6,7 +6,7 @@
     dest={{ ansible_env.HOME }}/{{ app_name }}/app.ini
     mode=0644
     force=no
-  notify: "restart uwsgi"
+  notify: "restart web stack"
 
 - name: set up config.py file
   template:
@@ -14,10 +14,10 @@
     dest={{ ansible_env.HOME }}/{{ app_name }}/config.py
     mode=0644
     force=no
-  notify: "restart uwsgi"
+  notify: "restart web stack"
 
 ## system files
-- name: grab path to uwsgi executable, needed for uwsgi.conf.j2 and systemd.conf.j2
+- name: grab path to uwsgi executable, needed for some templates
   shell: which uwsgi
   register: uwsgi_exists
   changed_when: False
@@ -28,7 +28,7 @@
     dest=/etc/init/uwsgi.conf
     mode=0644
     force=no
-  notify: "restart web services"
+  notify: "restart web stack"
   become: True
 
 - name: set up nginx config file
@@ -37,14 +37,14 @@
     dest=/etc/nginx/sites-available/{{ app_name }}
     mode=0644
     force=no
-  notify: "restart nginx"
+  notify: "restart web stack"
   become: True
 
 - name: swap out default config in nginx sites-enabled...
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
-  notify: "restart nginx"
+  notify: "restart web stack"
   become: True
 
 - name: ...in favor of the new config
@@ -52,7 +52,7 @@
     src: /etc/nginx/sites-available/{{ app_name }}
     dest: /etc/nginx/sites-enabled/{{ app_name }}
     state: link
-  notify: "restart nginx"
+  notify: "restart web stack"
   become: True
 
 - name: add uwsgi entry for systemd startup
@@ -61,7 +61,7 @@
     dest: /etc/systemd/system/uwsgi.service
     mode: 0644
     force: no
-  notify: "restart uwsgi"
+  notify: "restart web stack"
   become: True
 
 - name: create uwsgi log output directory
@@ -71,7 +71,7 @@
     mode: 0755
     owner: www-data
     group: www-data
-  notify: "restart uwsgi"
+  notify: "restart web stack"
   become: True
 
 - name: add logrotate config for uwsgi output
@@ -80,6 +80,6 @@
     dest: /etc/logrotate.d/uwsgi
     mode: 0644
     force: no
-  notify: "restart uwsgi"
+  notify: "restart web stack"
   become: True
 

@@ -3,30 +3,30 @@
   find: paths="/swapfile"
   register: swap_exists
   when: >
-    {{ ansible_swapfree_mb }} < 1000 or {{ ansible_memtotal_mb }} < 2000
+    {{ ansible_memtotal_mb }} < 2000 and {{ ansible_swapfree_mb }} < 1000
 
 - name: make sure /swapfile does not exist
   assert: { that: "swap_exists.matched|int == 0" }
   when: >
-    {{ ansible_swapfree_mb }} < 1000 or {{ ansible_memtotal_mb }} < 2000
+    {{ ansible_memtotal_mb }} < 2000 and {{ ansible_swapfree_mb }} < 1000
 
 - name: adding 1GB swap if system needs it, in order to run npm install
   shell: dd if=/dev/zero of=/swapfile bs=1024 count=1024k
   args:
     creates: /swapfile
   when: >
-    {{ ansible_swapfree_mb }} < 1000 or {{ ansible_memtotal_mb }} < 2000
+    {{ ansible_memtotal_mb }} < 2000 and {{ ansible_swapfree_mb }} < 1000
   become: True
 
 - name: set /swapfile as swap
   shell: mkswap /swapfile
   when: >
-    {{ ansible_swapfree_mb }} < 1000 or {{ ansible_memtotal_mb }} < 2000
+    {{ ansible_memtotal_mb }} < 2000 and {{ ansible_swapfree_mb }} < 1000
   become: True
 
 - name: activate /swapfile as swap
   shell: swapon /swapfile
   when: >
-    {{ ansible_swapfree_mb }} < 1000 or {{ ansible_memtotal_mb }} < 2000
+    {{ ansible_memtotal_mb }} < 2000 and {{ ansible_swapfree_mb }} < 1000
   become: True
 

@@ -13,7 +13,7 @@ ssl_cert_org_unit: "{{ app_name }}"
 ssl_cert_subj: >
   /C={{ ssl_cert_country }}/ST={{ ssl_cert_state }}/L={{ ssl_cert_city }}/O={{ ssl_cert_organization }}/OU={{ ssl_cert_org_unit }}/CN={{ ansible_fqdn }}/emailAddress=admin@{{ ansible_fqdn }}
 
-mode: Debug # or Prod; note: case-sensitive
+mode: Prod # or Debug; note: case-sensitive
 deploy_user: ubuntu
 app_name: expense-www
 cgi_path: "/expense"

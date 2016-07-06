@@ -11,3 +11,11 @@ Up front, you'll be prompted for your Google Maps API key. Other default values 
 
 Lastly, the script assumes SSL-protected (HTTPS) connections and will generate a self-signed key and certificate pair to get started.
 
+After installation, the app should be running at:
+
+`https://[YOUR_DOMAIN_OR_IP_ADDRESS][cgi_path]/?key=[access_key]`
+
+e.g.,
+
+`https://10.0.0.1/expense/?key=mykey`
+

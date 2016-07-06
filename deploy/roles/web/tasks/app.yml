@@ -13,7 +13,7 @@
   args:
     chdir: "{{ ansible_env.HOME }}/{{ app_name }}"
     creates: "{{ ansible_env.HOME }}/{{ app_name }}/static/js/*.js"
-  notify: "restart uwsgi"
+  notify: "restart web stack"
   when: mode == "Prod"
 
 - name: compile stack with Grunt (Debug)
@@ -21,6 +21,6 @@
   args:
     chdir: "{{ ansible_env.HOME }}/{{ app_name }}"
     creates: "{{ ansible_env.HOME }}/{{ app_name }}/static/js/*.js"
-  notify: "restart uwsgi"
+  notify: "restart web stack"
   when: mode == "Debug"
 

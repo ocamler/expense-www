@@ -1,6 +1,7 @@
 ---
 - name: set up PostgreSQL RDBMS
   apt: name=postgresql update_cache=yes state=installed
+  notify: "restart db stack"
   become: True
 
 - name: create role for db_user if needed
@@ -9,6 +10,7 @@
   postgresql_user:
     name: "{{ db_user }}"
     role_attr_flags: SUPERUSER
+  notify: "restart db stack"
   become: True
   become_user: postgres
 
@@ -16,6 +18,7 @@
   vars:
     ansible_ssh_pipelining: true
   postgresql_db: name={{ db_name }} owner={{ db_user }}
+  notify: "restart db stack"
   become: True
   become_user: postgres
 
@@ -38,4 +41,5 @@
     psql_result.rc != 0 and ("No changes" not in psql_result.stderr)
   args:
     executable: /bin/bash
+  notify: "restart db stack"
 

@@ -7,6 +7,6 @@
              -subj '{{ ssl_cert_subj }}'
   args:
     creates: /etc/ssl/{{ app_name }}.*
-  notify: "restart web services"
+  notify: "restart web stack"
   become: True
 

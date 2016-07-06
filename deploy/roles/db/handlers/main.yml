@@ -1,4 +1,10 @@
 ---
-- name: restart postgresql
-  service: name=postgresql state=restarted
+- name: start postgresql if needed
+  service: name=postgresql state=started
+  listen: "restart db stack"
+
+- name: trigger uwsgi chain reload
+  shell: >
+    echo c > /tmp/uwsgi.fifo
+  listen: "restart db stack"
 
