@@ -1,7 +1,4 @@
 ---
-## please supply your Google Maps API key below
-google_maps_api_key: ""
-
 ## this is an optional access key that must be
 ##   included in the url as ?key=<value>, in lieu
 ##   of an .htaccess file or some other protection

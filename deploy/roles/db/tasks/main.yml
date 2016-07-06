@@ -19,12 +19,12 @@
   become: True
   become_user: postgres
 
-- name: create directory to store temporary SQL files
+- name: create directory to store SQL file
   file:
     path: '{{ ansible_env.HOME|quote }}/{{ app_name|quote }}/src/db/'
     state: directory
 
-- name: send SQL files over
+- name: send SQL file over
   copy: src=tables.sql dest={{ ansible_env.HOME }}/{{ app_name }}/src/db/
 
 - name: create tables as necessary

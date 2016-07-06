@@ -5,7 +5,7 @@
 
 Once your inventory file is set up with one or more `webservers` and `dbservers`, run the `site.yml` playbook to install:
 
-`ansible-playbook site.yml`
+`$ ansible-playbook site.yml`
 
 Up front, you'll be prompted for your Google Maps API key. Other default values are stored in `group_vars/all.yml`, you may want to adjust those to your preferences.
 
