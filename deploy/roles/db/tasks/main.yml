@@ -1,0 +1,41 @@
+---
+- name: set up PostgreSQL RDBMS
+  apt: name=postgresql update_cache=yes state=installed
+  become: True
+
+- name: create role for db_user if needed
+  vars:
+    ansible_ssh_pipelining: true
+  postgresql_user:
+    name: "{{ db_user }}"
+    role_attr_flags: SUPERUSER
+  become: True
+  become_user: postgres
+
+- name: create database
+  vars:
+    ansible_ssh_pipelining: true
+  postgresql_db: name={{ db_name }} owner={{ db_user }}
+  become: True
+  become_user: postgres
+
+- name: create directory to store temporary SQL files
+  file:
+    path: '{{ ansible_env.HOME|quote }}/{{ app_name|quote }}/src/db/'
+    state: directory
+
+- name: send SQL files over
+  copy: src=tables.sql dest={{ ansible_env.HOME }}/{{ app_name }}/src/db/
+
+- name: create tables as necessary
+  shell: >
+    psql {{ db_name|quote }}
+    -f {{ ansible_env.HOME|quote }}/{{ app_name|quote }}/src/db/tables.sql
+  register: psql_result
+  changed_when: >
+    psql_result.rc == 0
+  failed_when: >
+    psql_result.rc != 0 and ("No changes" not in psql_result.stderr)
+  args:
+    executable: /bin/bash
+

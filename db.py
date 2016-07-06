@@ -27,20 +27,12 @@ register_adapter(Circle, adapt_circle)
 register_adapter(Point, adapt_point)
 
 class Connection:
-    def __init__(self, dbname, host, username):
-        self.connect_args = {
-            'db2use': dbname,
-            'host': host,
-            'username': username
-        }
-        self.connect()
+    def __init__(self, args):
+        self.connect(args)
 
-    def connect(self):
+    def connect(self, args):
         # don't use this directly; called automatically upon creation
-        self.conn = psycopg2.connect(
-            "host='%(host)s' user='%(username)s' dbname='%(db2use)s'" % \
-            self.connect_args
-        )
+        self.conn = psycopg2.connect(**args)
         self.conn.set_isolation_level(0) # autocommit (no transactions)
 
     def query(self, sql, params=[]):

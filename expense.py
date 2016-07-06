@@ -9,7 +9,7 @@ conf = Config()
 app = Flask(__name__)
 app.config.from_object('config.Config')
 api = Api(app)
-cn = Connection(conf.DB_NAME, conf.DB_HOST, conf.DB_USER)
+cn = Connection(conf.DB_CONNECT)
 
 @app.route('/', methods=['GET'])
 def index():

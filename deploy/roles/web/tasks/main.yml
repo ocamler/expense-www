@@ -1,0 +1,9 @@
+---
+- include: stack.yml
+- include: ssl.yml
+- include: nodejs.yml
+- include: grunt.yml
+- include: swap.yml
+- include: app.yml
+- include: config.yml
+

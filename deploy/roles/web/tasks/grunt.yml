@@ -1,0 +1,20 @@
+---
+- name: pre-install grab path to Grunt executable
+  shell: which grunt
+  register: grunt_exists
+  changed_when: False
+  failed_when: False
+
+- name: install Grunt CLI
+  command: npm install -g grunt-cli
+  args:
+    creates: "{{ grunt_exists.stdout }}"
+  when: >
+    grunt_exists.rc != 0
+  become: True
+
+- name: post-install grab path to Grunt executable
+  shell: which grunt
+  register: grunt_exists
+  changed_when: False
+

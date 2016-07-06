@@ -1,0 +1,8 @@
+---
+### INITIAL SETUP, PRIOR TO RUNNING PLAYBOOKS
+###
+### 1. Run O/S updates
+### 2. Apply desired hostname to /etc/hostname
+###
+- include: webservers.yml
+- include: dbservers.yml

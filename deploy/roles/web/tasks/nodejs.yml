@@ -1,0 +1,46 @@
+---
+# install nodejs/npm
+#   taken from: https://serversforhackers.com/an-ansible-tutorial
+- name: Ensure Ubuntu Distro is Supported
+  get_url:
+    url='https://deb.nodesource.com/node/dists/{{ ansible_distribution_release }}/Release'
+    dest=/dev/null
+  register: distrosupported
+
+- name: Add Nodesource Keys
+  apt_key:
+    url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state=present
+  become: True
+
+- name: Add Nodesource Apt Sources List Deb
+  apt_repository:
+    repo='deb https://deb.nodesource.com/node {{ ansible_distribution_release }} main'
+    state=present
+  when: distrosupported|success
+  become: True
+
+- name: Add Nodesource Apt Sources List Deb Src
+  apt_repository:
+    repo='deb-src https://deb.nodesource.com/node {{ ansible_distribution_release }} main'
+    state=present
+  when: distrosupported|success
+  become: True
+
+- name: Install NodeJS
+  apt: pkg=nodejs state=latest update_cache=true
+  when: distrosupported|success
+  become: True
+# end install nodejs/npm; taken from: https://serversforhackers.com/an-ansible-tutorial
+
+- name: get npm executable version
+  shell: npm --version
+  register: npm_version
+  changed_when: False
+
+- name: upgrade npm to at least v3+
+  command: npm install npm -g
+  when: >
+    not npm_version.stdout|match("^3[.]")
+  become: True
+

@@ -2,6 +2,10 @@ from difflib import unified_diff
 import json
 import os
 
+##############################################################
+## Note: the best way to configure the app is via the       ##
+##       Ansible playbooks in the deploy/ subfolder.        ##
+##############################################################
 CACHE_FILE = "config.json"
 TEMPLATE_FILE = "config.py.PROTO"
 OUTPUT_FILE = "config.py"
@@ -14,9 +18,6 @@ questions = [
      'default': ''},
     {'key': 'API_KEY',
      'desc': 'Your Google Maps API key?'},
-    {'key': 'DB_HOST',
-     'desc': 'PostgreSQL host name (or IP address)?',
-     'default': 'localhost'},
     {'key': 'DB_NAME',
      'desc': 'PostgreSQL database name?'},
     {'key': 'DB_USER',

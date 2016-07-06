@@ -1,21 +1,20 @@
 class DefaultConfig(object):
     DEBUG = False
-    TESTING = False
     ACCESS_KEY = '%(ACCESS_KEY)s'
     APIKEY = '%(API_KEY)s'
     DECIMAL_PRECISION = 4
     RADIUS = .005
-    DB_NAME = '%(DB_NAME)s'
-    DB_HOST = '%(DB_HOST)s'
-    DB_USER = '%(DB_USER)s'
+    DB_CONNECT = {
+      'database': '%(DB_NAME)s',
+      'host': None, # assumes localhost via Unix socket
+      'port': None, # assumes default 5432
+      'user': '%(DB_USER)s',
+      'password': None # assumes no password for the user
+    }
     LIVERELOAD_URL = '%(LIVERELOAD_URL)s'
 
 class DebugConfig(DefaultConfig):
     DEBUG = True
-
-class TestConfig(DefaultConfig):
-    DEBUG = True
-    TESTING = True
 
 class ProdConfig(DefaultConfig):
     pass
@@ -23,3 +22,4 @@ class ProdConfig(DefaultConfig):
 # set which ancestor class to use
 class Config(%(CONFIG_TO_USE)sConfig):
     pass
+

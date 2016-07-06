@@ -1,0 +1,14 @@
+# uWSGI script to start up Flask
+
+description "uWSGI for Flask" 
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+setuid {{ ansible_ssh_user }}
+setgid www-data
+
+respawn
+
+chdir {{ ansible_env.HOME }}/{{ app_name }}
+exec {{ uwsgi_exists.stdout }} --ini app.ini
+

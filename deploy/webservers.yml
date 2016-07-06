@@ -1,0 +1,9 @@
+---
+- hosts: webservers
+  vars_prompt:
+    - name: "api_key"
+      prompt: "Please supply your Google Maps API key"
+      private: no
+  roles:
+    - web
+

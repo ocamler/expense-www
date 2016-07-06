@@ -1,0 +1,14 @@
+[uwsgi]
+socket = /tmp/uwsgi.sock
+chmod-socket = 666
+wsgi-file = expense.py
+callable = app
+master = true
+processes = 4
+threads = 2
+buffer-size = 32768
+req-logger = file:{{ log_path }}/access.log
+logger = file:{{ log_path }}/error.log
+# echo c > /tmp/uwsgi.fifo # will restart the workers in succession
+master-fifo = /tmp/uwsgi.fifo
+lazy-apps = true

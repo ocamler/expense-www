@@ -1,0 +1,85 @@
+---
+## app files
+- name: set up app.ini file
+  template:
+    src=app.ini.j2
+    dest={{ ansible_env.HOME }}/{{ app_name }}/app.ini
+    mode=0644
+    force=no
+  notify: "restart uwsgi"
+
+- name: set up config.py file
+  template:
+    src=config.py.j2
+    dest={{ ansible_env.HOME }}/{{ app_name }}/config.py
+    mode=0644
+    force=no
+  notify: "restart uwsgi"
+
+## system files
+- name: grab path to uwsgi executable, needed for uwsgi.conf.j2 and systemd.conf.j2
+  shell: which uwsgi
+  register: uwsgi_exists
+  changed_when: False
+
+- name: set up uwsgi config file
+  template:
+    src=uwsgi.conf.j2
+    dest=/etc/init/uwsgi.conf
+    mode=0644
+    force=no
+  notify: "restart web services"
+  become: True
+
+- name: set up nginx config file
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/{{ app_name }}
+    mode=0644
+    force=no
+  notify: "restart nginx"
+  become: True
+
+- name: swap out default config in nginx sites-enabled...
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: "restart nginx"
+  become: True
+
+- name: ...in favor of the new config
+  file:
+    src: /etc/nginx/sites-available/{{ app_name }}
+    dest: /etc/nginx/sites-enabled/{{ app_name }}
+    state: link
+  notify: "restart nginx"
+  become: True
+
+- name: add uwsgi entry for systemd startup
+  template:
+    src: systemd.conf.j2
+    dest: /etc/systemd/system/uwsgi.service
+    mode: 0644
+    force: no
+  notify: "restart uwsgi"
+  become: True
+
+- name: create uwsgi log output directory
+  file:
+    path: "{{ log_path }}/{{ app_name }}"
+    state: directory
+    mode: 0755
+    owner: www-data
+    group: www-data
+  notify: "restart uwsgi"
+  become: True
+
+- name: add logrotate config for uwsgi output
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.d/uwsgi
+    mode: 0644
+    force: no
+  notify: "restart uwsgi"
+  become: True
+

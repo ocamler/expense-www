@@ -1,9 +1,11 @@
 restart:
 	echo c > /tmp/uwsgi.fifo
-restart_all:
+restart-all:
 	sudo service nginx restart
 	echo c > /tmp/uwsgi.fifo
-setup:
+# NOTE: the best way to set up the app is using
+#       Ansible playbooks in deploy/
+old-setup:
 	sudo npm install -g grunt-cli
 	npm install
 	mkdir -p logs

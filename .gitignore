@@ -1,8 +1,9 @@
 config.py
 config.json
 *.pyc
-logs
+deploy/*.retry
 node_modules
+src/db
 static/css
 static/fonts
 static/fa-fonts

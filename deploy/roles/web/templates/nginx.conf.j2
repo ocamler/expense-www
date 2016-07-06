@@ -1,0 +1,35 @@
+server {
+        listen 443 default_server;
+        listen [::]:443 default_server ipv6only=on;
+
+        # Make site accessible from http://localhost/
+        server_name localhost;
+        large_client_header_buffers 8 32k;
+
+        # enable SSL
+        ssl on;
+        ssl_certificate /etc/ssl/{{ app_name }}.crt;
+        ssl_certificate_key /etc/ssl/{{ app_name }}.key;
+        ssl_session_timeout 5m;
+        ssl_protocols  SSLv2 SSLv3 TLSv1;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers   on;
+
+        # uWSGI pass through
+        location {{ cgi_path }} { try_files $uri @data; }
+        location @data {
+                include uwsgi_params;
+                uwsgi_pass unix:/tmp/uwsgi.sock;
+                uwsgi_param SCRIPT_NAME {{ cgi_path }};
+                uwsgi_modifier1 30;
+        }
+
+        # directly serve static files
+        location {{ cgi_path }}/static {
+                alias {{ ansible_env.HOME }}/{{ app_name }}/static;
+        }
+
+        sendfile        on;
+        client_max_body_size 20M;
+        keepalive_timeout  0;
+}

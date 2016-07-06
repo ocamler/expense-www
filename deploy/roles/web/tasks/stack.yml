@@ -1,0 +1,21 @@
+---
+- name: install baseline packages
+  apt: name={{item}} update_cache=yes state=installed
+  with_items:
+    - python-pip
+    - git
+    - nginx
+    - python-dev
+    - uwsgi-plugin-python
+    - python-psycopg2
+    - build-essential
+  become: True
+
+- name: install pip packages
+  pip: name={{item}}
+  with_items:
+    - Flask
+    - uwsgi
+    - flask-restful
+  become: True
+

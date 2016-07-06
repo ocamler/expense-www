@@ -1,0 +1,26 @@
+---
+- name: pull in project from Github
+  git:
+    repo=https://github.com/ocamler/expense-www.git
+    dest={{ ansible_env.HOME }}/{{ app_name }}
+    update=no
+
+- name: initialize npm project
+  npm: path={{ ansible_env.HOME }}/{{ app_name }}
+
+- name: compile stack with Grunt (Prod)
+  shell: "NODE_ENV=production grunt compile:min"
+  args:
+    chdir: "{{ ansible_env.HOME }}/{{ app_name }}"
+    creates: "{{ ansible_env.HOME }}/{{ app_name }}/static/js/*.js"
+  notify: "restart uwsgi"
+  when: mode == "Prod"
+
+- name: compile stack with Grunt (Debug)
+  shell: "grunt compile"
+  args:
+    chdir: "{{ ansible_env.HOME }}/{{ app_name }}"
+    creates: "{{ ansible_env.HOME }}/{{ app_name }}/static/js/*.js"
+  notify: "restart uwsgi"
+  when: mode == "Debug"
+

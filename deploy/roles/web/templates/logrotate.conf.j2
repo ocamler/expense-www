@@ -1,0 +1,24 @@
+/var/log/{{ app_name }}/access.log {
+    size 10M
+    rotate 30
+    daily
+    compress
+    delaycompress
+    missingok
+    notifempty
+    postrotate
+    echo r > /tmp/new.fifo
+    endscript
+}
+/var/log/{{ app_name }}/error.log {
+    size 10M
+    rotate 30
+    daily
+    compress
+    delaycompress
+    missingok
+    notifempty
+    postrotate
+    echo r > /tmp/new.fifo
+    endscript
+}

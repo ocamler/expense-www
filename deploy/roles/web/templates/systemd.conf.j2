@@ -1,0 +1,16 @@
+[Unit]
+Description=uWSGI
+After=syslog.target
+
+[Service]
+ExecStart = {{ uwsgi_exists.stdout }} --ini {{ ansible_env.HOME }}/{{ app_name }}/app.ini
+ExecStop = kill -INT `cat /run/uwsgi.pid`
+ExecReload = kill -TERM `cat /run/uwsgi.pid`
+Restart = always
+Type = notify
+NotifyAccess = main
+PIDFile = /run/uwsgi.pid
+
+[Install]
+WantedBy=multi-user.target
+

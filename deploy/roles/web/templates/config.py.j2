@@ -1,0 +1,24 @@
+class DefaultConfig(object):
+    DEBUG = False
+    ACCESS_KEY = '{{ access_key }}'
+    APIKEY = '{{ api_key }}'
+    DECIMAL_PRECISION = 4
+    RADIUS = .005
+    DB_CONNECT = {
+      'database': '{{ db_name }}',
+      'host': {{ db_host|pprint if db_host != None else 'None' }},
+      'port': {{ db_port|pprint if db_port != None else 'None' }},
+      'user': '{{ db_user }}',
+      'password': {{ db_pass|pprint if db_pass != None else 'None' }}
+    }
+    LIVERELOAD_URL = '//{{ ansible_fqdn }}:35729/livereload.js'
+
+class DebugConfig(DefaultConfig):
+    DEBUG = True
+
+class ProdConfig(DefaultConfig):
+    pass
+
+# set which ancestor class to use
+class Config({{ mode }}Config):
+    pass
