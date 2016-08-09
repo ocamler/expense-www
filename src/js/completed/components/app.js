@@ -2,9 +2,12 @@ import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import RecentEntries from './recent_entries';
+
 @connect(
   state => ({
-    args: state.args
+    args: state.args,
+    recent_entries: state.recent_entries,
   }),
 )
 export default class extends Component {
@@ -33,6 +36,8 @@ export default class extends Component {
             {'  Start Again'.replace(/ /g, "\u00a0")}
           </button>
         </p>
+
+        <RecentEntries />
       </div>
     )
   }

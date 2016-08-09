@@ -196,6 +196,29 @@ values
  det[u'isTaxd'] and 1 or 0])
         return exp_number
 
+class RecentEntries(Resource):
+    def get(self):
+        # look up last 5 entries
+        return cn.hash_query("""
+select e.exp_number,
+       e.exp_desc,
+       TRIM(TO_CHAR(e.exp_amount, 'MI999,999,999D99')) AS exp_amount,
+       TO_CHAR(e.exp_date, 'MM/DD/YYYY') AS exp_date,
+       e.exp_method_payment AS method_payment,
+       MAX(c.cat_desc) AS category,
+       CASE WHEN e.taxd_amount > 0 THEN 1 ELSE 0 END AS istaxd
+from (expense e inner join exp_detail d
+  on e.exp_number = d.exp_number) inner join category c
+  on d.cat_number = c.cat_number
+group by e.exp_number,
+         e.exp_desc,
+         e.exp_amount,
+         e.exp_date,
+         e.exp_method_payment,
+         CASE WHEN e.taxd_amount > 0 THEN 1 ELSE 0 END
+order by e.exp_number desc
+limit 5;""")
+
 api.add_resource(CategoryList,      '/data/categories')
 api.add_resource(MethodPaymentList, '/data/method_payments')
 api.add_resource(Today,             '/data/today')
@@ -203,6 +226,7 @@ api.add_resource(GeoLocate,         '/data/geolocate')
 api.add_resource(GeoTag,            '/data/geotag')
 api.add_resource(GetPresets,        '/data/getpresets')
 api.add_resource(ExpenseIn,         '/data/expense_in')
+api.add_resource(RecentEntries,     '/data/recents')
 
 if __name__ == '__main__':
     app.run(
