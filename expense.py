@@ -198,7 +198,8 @@ values
 
 class RecentEntries(Resource):
     def get(self):
-        # look up last 5 entries
+        # look up last n entries
+        n = request.args.get('show_count', '5')
         return cn.hash_query("""
 select e.exp_number,
        e.exp_desc,
@@ -217,7 +218,8 @@ group by e.exp_number,
          e.exp_method_payment,
          CASE WHEN e.taxd_amount > 0 THEN 1 ELSE 0 END
 order by e.exp_number desc
-limit 5;""")
+limit %s;""", \
+[n])
 
 api.add_resource(CategoryList,      '/data/categories')
 api.add_resource(MethodPaymentList, '/data/method_payments')

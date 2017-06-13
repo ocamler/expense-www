@@ -26,6 +26,6 @@ localStorage.removeItem('exp_www_location');
 localStorage.removeItem('exp_www_details');
 
 $(function () {
-    // kick off retrieval of last-5 recent entries list
+    // kick off retrieval of recent entries list
     store.dispatch(recent_entries_load());
 });
