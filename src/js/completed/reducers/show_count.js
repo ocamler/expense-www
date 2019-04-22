@@ -7,7 +7,7 @@ const initialState = 5;
 export default (state = initialState, action) => {
     switch (action.type) {
         case SHOW_MORE_ENTRIES:
-            return state + 5;
+            return state + initialState;
 
         default:
             return state;
