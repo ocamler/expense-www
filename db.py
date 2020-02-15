@@ -28,21 +28,31 @@ register_adapter(Point, adapt_point)
 
 class Connection:
     def __init__(self, args):
-        self.connect(args)
+        self.conn = None
+        self.args = args.copy()
 
-    def connect(self, args):
-        # don't use this directly; called automatically upon creation
-        self.conn = psycopg2.connect(**args)
+    def connect(self):
+        self.conn = psycopg2.connect(**self.args)
         self.conn.set_isolation_level(0) # autocommit (no transactions)
 
-    def query(self, sql, params=[]):
-        return self.full_query(sql, params)[1] # just the data
+    def check_connection(self):
+        if self.conn is not None and self.conn.closed:
+            self.conn = None
+        if self.conn is None:
+            self.connect()
 
-    def hash_query(self, sql, params=[]):
-        fields, results = self.full_query(sql, params)
-        return [dict(zip(fields, i)) for i in results]
+    def execute(self, sql, params=[]):
+        self.check_connection()
+        c = self.conn.cursor()
+        c.execute(sql, params)
+        oid = c.lastrowid
+        self.conn.commit()
+        c.close()
+        del c
+        return oid
 
     def full_query(self, sql, params=[]):
+        self.check_connection()
         c = self.conn.cursor()
         c.execute(sql, params)
         results = c.fetchall()
@@ -51,17 +61,15 @@ class Connection:
         del c
         return fields, results
 
+    def hash_query(self, sql, params=[]):
+        fields, results = self.full_query(sql, params)
+        return [dict(zip(fields, i)) for i in results]
+
+    def query(self, sql, params=[]):
+        return self.full_query(sql, params)[1] # just the data
+
     def count(self, sql, params=[]):
         return int(self.query(sql, params)[0][0])
-
-    def execute(self, sql, params=[]):
-        c = self.conn.cursor()
-        c.execute(sql, params)
-        oid = c.lastrowid
-        self.conn.commit()
-        c.close()
-        del c
-        return oid
 
     def close(self):
         # don't use this directly; used by the Queue object
