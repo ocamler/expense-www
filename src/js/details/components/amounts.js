@@ -57,7 +57,7 @@ export default class extends Component {
                    className="dark-text form-control"
                    type="number"
                    min="0"
-                   inputmode="numeric"
+                   inputmode="decimal"
                    pattern="[0-9.]*"
                    placeholder="0.00"
                    value={currentAmount}
